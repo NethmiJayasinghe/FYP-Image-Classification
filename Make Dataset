@@ -1,1 +1,27 @@
+import numpy as np
+import scipy
+import os
+import matplotlib.image as mpimg
+import matplotlib.pyplot as plt
+import cv2
+from skimage.transform import resize
+
+def makedata(a):
+  img=mpimg.imread(a)
+  res = resize(img, (64,64))
+  return res
+
+Xdataset=[]
+for (dirpath, dirnames, filenames) in os.walk("/content/sample_data/Dataset1"):
+  A=len(filenames)
+  for i in range(A):
+    singledata=makedata(dirpath+"/"+filenames[0])
+    singledata.reshape(12288,1)
+    Xdataset.append(singledata)
+
+np.array(Xdataset)
+Ydataset= np.ones(12288,float)
+Ydataset=Ydataset.reshape(12288,1)
+
+np.savez("dataset.npz",X_data=Xdataset, Y_data=Ydataset)
 
